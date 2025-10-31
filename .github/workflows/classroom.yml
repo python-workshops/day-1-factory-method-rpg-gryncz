@@ -1,0 +1,31 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Factory Method Tests
+      id: factory-method-tests
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Factory Method Tests
+        setup-command: pip install -r requirements.txt
+        command: cd day1_creational/01_factory_rpg && python -m pytest test_factory.py
+          -v
+        timeout: 10
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        FACTORY-METHOD-TESTS_RESULTS: "${{steps.factory-method-tests.outputs.result}}"
+      with:
+        runners: factory-method-tests
