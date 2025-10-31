@@ -28,34 +28,37 @@ class Character(abc.ABC):
         }
 
 
-# TODO: Zaimplementuj klasy Warrior, Mage, Archer
-class Warrior:
-    pass
+class Warrior(Character):
+    def __init__(self):
+        super().__init__("Warrior", "sword", 100)
 
+    def attack(self) -> str:
+        return f"{self.name} attacks with {self.weapon}!"
 
-class Mage:
-    pass
+class Mage(Character):
+    def __init__(self):
+        super().__init__("Mage", "staff", 60)
 
+    def attack(self) -> str:
+        return f"{self.name} casts spell with {self.weapon}!"
 
-class Archer:
-    pass
+class Archer(Character):
+    def __init__(self):
+        super().__init__("Archer", "bow", 80)
 
+    def attack(self) -> str:
+        return f"{self.name} shoots with {self.weapon}!"
 
-# TODO: Zaimplementuj funkcję factory
 def create_hero(hero_type: str) -> Character:
-    """
-    Factory Method do tworzenia bohaterów
-
-    Args:
-        hero_type: Typ bohatera ("warrior", "mage", "archer")
-
-    Returns:
-        Obiekt odpowiedniej klasy bohatera
-
-    Raises:
-        ValueError: Gdy hero_type jest nieznany
-    """
-    pass
+    hero_type = hero_type.lower()
+    if hero_type == "warrior":
+        return Warrior()
+    elif hero_type == "mage":
+        return Mage()
+    elif hero_type == "archer":
+        return Archer()
+    else:
+        raise ValueError(f"Unknown hero type: {hero_type}")
 
 # Przykład użycia (odkomentuj gdy zaimplementujesz)
 # if __name__ == "__main__":
